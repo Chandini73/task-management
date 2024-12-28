@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="row">
+
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">Upload Image</h1>
+            <form method="POST" enctype="multipart/form-data" class="card p-4 shadow">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col-md-12">
+            <h2 class="text-center">Uploaded Images</h2>
+            <div class="d-flex flex-wrap justify-content-center">
+                {% for image in images %}
+                    <div class="card m-2" style="width: 18rem;">
+                        <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ image.title }}</h5>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No images uploaded yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+</body>
+</html>

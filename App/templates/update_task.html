@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update task</title>
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+body {
+  background-color: lightblue;
+}
+</style>
+
+  </head>
+  <body bgcolor="lightblue">
+    <div class="container mt-5">
+      <h2 class="text-center">Update task</h2>
+      <br>
+      <form method="post" id="updatetaskForm">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">title:</label>
+          <input type="text" class="form-control" id="title" name="name" value="{{ task.name }}" required />
+        </div>
+        <div class="form-group">
+          <label for="start_date">Start Date:</label>
+          <input type="datetime-local" class="form-control" id="start_date" name="start_date" value="{{ task.start_date }}" required />
+        </div>
+        <div class="form-group">
+          <label for="end_date">End Date:</label>
+          <input type="datetime-local" class="form-control" id="end_date" name="end_date" value="{{ task.end_date }}" required />
+          <small id="end_date_error" class="form-text text-danger"></small>
+        </div>
+        <div class="form-group">
+          <label for="priority">Priority:</label>
+          <input type="number" class="form-control" id="priority" name="priority" value="{{ task.priority }}" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" id="description" name="description" required>{{ task.description }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save task</button>
+      </form>
+    </div>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+    <script>
+      // Function to validate end date is after start date
+      function validateEndDate() {
+        var startDate = new Date(document.getElementById('start_date').value)
+        var endDate = new Date(document.getElementById('end_date').value)
+        if (endDate <= startDate) {
+          document.getElementById('end_date_error').innerText = 'End date must be after start date'
+          return false
+        } else {
+          document.getElementById('end_date_error').innerText = ''
+          return true
+        }
+      }
+
+      // Add task listener to form submission for validation
+      document.getElementById('updatetaskForm').addtaskListener('submit', function (task) {
+        if (!validateEndDate()) {
+          task.prtaskDefault() // Prtask form submission if validation fails
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add task</title>
+    <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+body {
+  background-color: lightblue;
+}
+</style>
+
+  </head>
+  <body bgcolor="lightblue">
+    <div class="container mt-5">
+      <h2 class="text-center">Add task</h2>
+      <br />
+      <form method="post" action="{% url 'create_task' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="title">Task Title:</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="Enter Task Title" required />
+        </div>
+        <div class="form-group">
+          <label for="Category">Category:</label>
+          <select class="form-control" id="Category" name="Category" required>
+            <option value="">Select category</option>
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+          <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" class="form-control" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input type="datetime-local" class="form-control" id="startDate" name="start_date" required />
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date:</label>
+          <input type="datetime-local" class="form-control" id="endDate" name="end_date" required />
+        </div>
+        <div class="form-group">
+          <label for="priority">Priority:</label>
+          <input type="number" class="form-control" id="priority" name="priority" min="1" value="1" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" >Submit</button>
+      </form>
+    </div>
+
+    <!-- Bootstrap JS (Optional - for certain Bootstrap features like dropdowns, modals, etc.) -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+
+    <script>
+      function validateForm() {
+        var startDate = document.getElementById('startDate').value
+        var endDate = document.getElementById('endDate').value
+
+        if (new Date(startDate) >= new Date(endDate)) {
+          alert('End date must be after the start date.')
+          return false
+        }
+        return true
+      }
+    </script>
+  </body>
+</html>
